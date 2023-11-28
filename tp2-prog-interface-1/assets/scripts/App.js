@@ -1,6 +1,4 @@
-import { aTaches } from './aTaches.js'
-import { Tache } from './Tache.js';
-
+import { Formulaire  } from './Formulaire.js'
 
 export class App {
 
@@ -8,13 +6,19 @@ export class App {
 
         this._elTaches = document.querySelector('[data-js-taches]');
 
+        this._oOptions = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+
+        this._requete = new Request('requetes/requetesAsync.php');
+        this._elTemplateTache = document.querySelector('[data-template-tache]');
+
     }
 
-    /**
-     * Construit, injecte et lance les comportements de chaque nouvelle tâche
-     * @param {Int} index 
-     */
-    injecteTache(index) {
+    /*injecteTache(index) {
 
         let dom =  `<div data-js-tache=${index}>
                         <p>
@@ -35,5 +39,5 @@ export class App {
         this._elTaches.insertAdjacentHTML('beforeend', dom);
 
         new Tache(this._elTaches.lastElementChild);
-    }
+    }*/
 }

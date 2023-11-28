@@ -32,7 +32,10 @@ function connexionDB() {
 /********** Requetes Sql **********/
 
 
-
+/**
+* Exécute la requête SQL
+* Si le paramètre $insert est true, retourne l'id de la ressource ajoutée à la db
+*/
 function executeRequete($requete, $insert = false) {
     global $connexion;
     if ($insert) {
@@ -44,21 +47,45 @@ function executeRequete($requete, $insert = false) {
     }
 }
 
+
 /**
 * Retourne la liste des Taches
 */
+
 function getAllTaches() {
 	return executeRequete("SELECT * FROM taches");		
 }
 
-
 /**
 * Ajoute le nouveau joueur
- */
+*/
+
 function ajouteJoueur($tache, $description, $importance) {
 	$query = "INSERT INTO taches (`tache`, `description`, `importance`) 
 		      VALUES ('" . $tache . "','" . $description . "','" . $importance. "' )";
 	return executeRequete($query, true);
 }
+
+/**
+* Retourne la tache spécifié
+*/
+function getTache($id) {
+	// La fonction mysqli_real_escape_string est utilisée pour créer une chaîne SQL légale qui peut être utilisée dans une instruction SQL, en tenant compte du jeu de caractères (charset) actuel de la connexion.
+	global $connexion;
+	$id = mysqli_real_escape_string($connexion, $id);
+	return executeRequete('SELECT * FROM taches WHERE id=' . $id);		
+}
+
+/**
+* Supprime la tache specifiée
+*/
+function supprimeTache($id) {
+
+    global $connexion;
+    $id = mysqli_real_escape_string($connexion, $id);
+    return executeRequete('DELETE FROM taches WHERE id=' . $id);
+
+}
+
 
 

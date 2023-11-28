@@ -1,6 +1,5 @@
-import { App } from './App.js';
-import { aTaches } from './aTaches.js';
-import { Validation } from './Validation.js'
+import { Validation } from './Validation.js';
+import { Tache } from './Tache.js';
 
 export class Formulaire {
 
@@ -12,6 +11,7 @@ export class Formulaire {
         this._elBouton = this._el.querySelector('[data-js-btn]'); 
         
         this._elTaches = document.querySelector('[data-js-taches]');
+        this._elTemplateTache = document.querySelector('[data-template-tache]');
 
         this._oOptions = {
             method: 'POST',
@@ -52,7 +52,7 @@ export class Formulaire {
 
         let elCheckedImportance = this._el.querySelector('input[name="importance"]:checked');
 
-        if (this._elInputTache.value != '' && this._elInputDescription.value != '' && elCheckedImportance != 0) {
+        if (this._elInputTache.value != '' && elCheckedImportance != 0) {
 
             let data = {
                 action: 'ajouteTache',
@@ -64,17 +64,34 @@ export class Formulaire {
             this._oOptions.body = JSON.stringify(data);
 
             this.appelFetch()
-                .then(function(data){
-                    //console.log(data)
-                })
+                .then(function(id){
+
+                    data.id = id.result;
+
+                    let elCloneTemplateTache = this._elTemplateTache.cloneNode(true);
+
+                    for (const cle in data) {
+
+                        let regex = new RegExp('{{' + cle + '}}', 'g');
+
+                        elCloneTemplateTache.innerHTML = elCloneTemplateTache.innerHTML.replace(regex, data[cle]);
+                     
+                    }
+
+                    let elNouvTache = document.importNode(elCloneTemplateTache.content, true);
+
+                    elNouvTache.querySelector('[data-js-tache]').dataset.jsTache = data.id;
+
+                    this._elTaches.append(elNouvTache);
+
+                    new Tache(this._elTaches.lastElementChild)
+
+                }.bind(this))
                 .catch(function(err) {
                     console.log(`Il y a eu un problème avec l'opération fetch: ${err.message}`);
                 })
         }
 
-        // Injecte la tâche
-        //const app = new App();
-        //app.injecteTache(aTaches.length - 1);
     }
 
 

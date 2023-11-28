@@ -86,6 +86,24 @@
                 ?>
             </div>
 
+            <template data-template-tache>
+                    <div data-js-tache= "{{ id }}">
+                        <p>
+                            <span>
+                                <small>Tâche : </small>{{tache}}
+                            </span>
+                            -
+                            <span>
+                                <small>Importance : </small>{{importance}}
+                            </span>
+                            <span data-js-actions>
+                                <button data-js-action="afficher">Afficher le détail</button>
+                                <button data-js-action="supprimer">Supprimer</button>
+                            </span>
+                        </p>
+                    </div>
+            </template>
+
             <div class="to-do-list__actions" data-js-trier-taches>
                 <button data-js-trier="tache">Trier par ordre alphabétique</button>
                 <button data-js-trier="importance">Trier par importance</button>

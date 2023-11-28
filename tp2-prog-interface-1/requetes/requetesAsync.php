@@ -28,6 +28,20 @@ if (isset($data['action'])) {
             }
 
             break;
+        
+        case 'supprimeTache':
+
+            if (isset($data['id']) && !empty($data['id'])) {
+                $success = supprimeTache($data['id']);
+                $response = $success ? array('success' => true) : array('success' => false, 'error' => 'Erreur lors de la suppression de la tâche.');
+                
+                header('Content-type: application/json; charset=utf-8');
+                echo json_encode($response);
+            } else {
+                echo json_encode('erreur');
+            }
+
+            break;
     }
 
 } else {
