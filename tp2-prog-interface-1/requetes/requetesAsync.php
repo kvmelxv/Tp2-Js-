@@ -42,6 +42,16 @@ if (isset($data['action'])) {
             }
 
             break;
+        
+        case 'getTache' :
+
+            if (isset($data['id'])) {
+                $tache = mysqli_fetch_assoc(getTache($data['id']));
+                header('Content-type: application/json; charset=utf-8');
+                echo json_encode($tache);
+            }
+
+            break;
     }
 
 } else {

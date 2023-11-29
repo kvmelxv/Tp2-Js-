@@ -5,7 +5,9 @@ export class Tache {
         this._id = this._el.dataset.jsTache;
         this._elActions = this._el.querySelector('[data-js-actions]');
         this._elTaches = this._el.closest('[data-js-taches]');
-        this._elTacheDetail = document.querySelector('[data-js-tache-detail]');
+        this._elTacheDetail = document.querySelector('[data-js-detail-info]');
+
+        this._elTemplateDetail = document.querySelector('[data-template-detail]');
 
         this.init();
     }
@@ -17,7 +19,7 @@ export class Tache {
     init() {
 
         this._elActions.addEventListener('click', function(e) {
-            if (e.target.dataset.jsAction == 'afficher') console.log('detail')/*this.afficheDetail()*/;
+            if (e.target.dataset.jsAction == 'afficher') this.afficheDetail();
             else if (e.target.dataset.jsAction == 'supprimer') this.supprimeTache();
         }.bind(this));
     }
@@ -26,17 +28,60 @@ export class Tache {
     /**
      * Affiche le détail d'une tâche
      */
-    /*afficheDetail() {
-        let description = aTaches[this._index].description;
+    afficheDetail(){
 
-        let elDetailDom =  `<div class="detail__info">
-                                <p><small>Tâche : </small>${aTaches[this._index].tache}</p>
-                                <p><small>Description : </small>${description ? description : 'Aucune description disponible.'}</p>
-                                <p><small>Importance : </small>${aTaches[this._index].importance}</p>
-                            </div>`;
 
-        this._elTacheDetail.innerHTML = elDetailDom;
-    }*/
+        if (this._id !== 0){
+
+            let data = {
+                action: 'getTache',
+                id: this._id
+            }
+
+            let oOption = {
+
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+
+            fetch('requetes/requetesAsync.php', oOption)
+              .then(function(response){
+                if (response.ok) return response.json();
+                else throw new Error ("la reponse n'est pas ok.");
+              })
+              .then(function(data){
+
+                this._elTacheDetail.innerHTML = '';
+
+                let elCloneTemplateDetail = this._elTemplateDetail.cloneNode(true);
+
+                for (const cle in data) {
+
+                    let regex = new RegExp('{{' + cle + '}}', 'g');
+
+                    if (cle === 'description' && data[cle] === '') {
+                        data[cle] = "Aucune description disponible. ";
+                    }
+
+                    elCloneTemplateDetail.innerHTML = elCloneTemplateDetail.innerHTML.replace(regex, data[cle]);
+
+                }
+
+                let elNouvDetail = document.importNode(elCloneTemplateDetail.content, true);
+
+                this._elTacheDetail.append(elNouvDetail);
+                
+              }.bind(this))
+              .catch(function(err){
+                console.log(err.message);
+              })
+
+        }
+
+    }
 
 
     /**
@@ -78,7 +123,7 @@ export class Tache {
               })
 
         }
-        
-
     }
 }
+
+//export const { afficheDetail } = new Tache();

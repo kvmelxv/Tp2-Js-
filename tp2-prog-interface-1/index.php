@@ -17,7 +17,7 @@
 
 </head>
 
-<body>
+<body data-js-component='Router'>
 	<header>
 		<h1>TP2</h1>
         <p>Un gestionnaire de tâches (to-do-list) en POO.</p>
@@ -117,7 +117,20 @@
 
             <div class="chevron chevron--top" data-js-chevron></div>
 
-            <div class="detail__tache" data-js-tache-detail></div>
+            <div class="detail__tache" data-js-tache-detail>
+                <div class="detail__info" data-js-detail-info></div>
+            </div>
+
+            <template data-template-detail>
+                <div class="detail__tache" data-js-tache-detail>
+                    <div class="detail__info" data-js-detail-info>
+                        <p><small>Tâche : </small>{{tache}}</p>
+                        <p><small>Description : </small>{{description}}</p>
+                        <p><small>Importance : </small>{{importance}}</p>
+                    </div>
+                </div>
+            </template>
+            
         </section>
 </body>
 </html>
