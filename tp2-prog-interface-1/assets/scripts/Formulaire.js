@@ -1,5 +1,6 @@
 import { Validation } from './Validation.js';
 import { Tache } from './Tache.js';
+import  Router  from './Router.js';
 
 export class Formulaire {
 
@@ -46,7 +47,7 @@ export class Formulaire {
 
 
     /**
-     * Ajoute la tâche au tableau aTaches et appelle la méthode pour injecter la nouvelle tâche
+     * Ajoute la tâche a la BD et l'afficher dans le DOM.
      */
     ajouteTache() {
 
@@ -84,7 +85,8 @@ export class Formulaire {
 
                     this._elTaches.append(elNouvTache);
 
-                    new Tache(this._elTaches.lastElementChild)
+                    new Tache(this._elTaches.lastElementChild);
+                    new Router();
 
                 }.bind(this))
                 .catch(function(err) {

@@ -114,7 +114,6 @@
         <!-- Section détail d'une tâche -->
         <section class="detail detail--ouvert" data-js-detail>
             <h3>Détail d'une tâche</h3>
-
             <div class="chevron chevron--top" data-js-chevron></div>
 
             <div class="detail__tache" data-js-tache-detail>

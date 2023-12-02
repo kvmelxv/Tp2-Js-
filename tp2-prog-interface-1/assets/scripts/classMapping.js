@@ -1,5 +1,5 @@
-//import Router from './Router.js';
+import Router from './Router.js';
 
-/*export const classesMapping = {
+export const classesMapping = {
     'Router': Router
-};*/
+};

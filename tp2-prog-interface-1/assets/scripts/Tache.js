@@ -1,5 +1,6 @@
 
 export class Tache {
+    
     constructor(el) {
         this._el = el;
         this._id = this._el.dataset.jsTache;
@@ -19,71 +20,11 @@ export class Tache {
     init() {
 
         this._elActions.addEventListener('click', function(e) {
-            if (e.target.dataset.jsAction == 'afficher') this.afficheDetail();
-            else if (e.target.dataset.jsAction == 'supprimer') this.supprimeTache();
+            if (e.target.dataset.jsAction == 'supprimer') this.supprimeTache();
         }.bind(this));
     }
 
-
-    /**
-     * Affiche le détail d'une tâche
-     */
-    afficheDetail(){
-
-
-        if (this._id !== 0){
-
-            let data = {
-                action: 'getTache',
-                id: this._id
-            }
-
-            let oOption = {
-
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }
-
-            fetch('requetes/requetesAsync.php', oOption)
-              .then(function(response){
-                if (response.ok) return response.json();
-                else throw new Error ("la reponse n'est pas ok.");
-              })
-              .then(function(data){
-
-                this._elTacheDetail.innerHTML = '';
-
-                let elCloneTemplateDetail = this._elTemplateDetail.cloneNode(true);
-
-                for (const cle in data) {
-
-                    let regex = new RegExp('{{' + cle + '}}', 'g');
-
-                    if (cle === 'description' && data[cle] === '') {
-                        data[cle] = "Aucune description disponible. ";
-                    }
-
-                    elCloneTemplateDetail.innerHTML = elCloneTemplateDetail.innerHTML.replace(regex, data[cle]);
-
-                }
-
-                let elNouvDetail = document.importNode(elCloneTemplateDetail.content, true);
-
-                this._elTacheDetail.append(elNouvDetail);
-                
-              }.bind(this))
-              .catch(function(err){
-                console.log(err.message);
-              })
-
-        }
-
-    }
-
-
+    
     /**
      * Supprime la tâche du DOM et de la BD.
      */
@@ -125,5 +66,3 @@ export class Tache {
         }
     }
 }
-
-//export const { afficheDetail } = new Tache();

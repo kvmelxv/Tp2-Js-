@@ -49,7 +49,25 @@ if (isset($data['action'])) {
                 $tache = mysqli_fetch_assoc(getTache($data['id']));
                 header('Content-type: application/json; charset=utf-8');
                 echo json_encode($tache);
+            } else {
+                echo json_encode(['error' => 'ID de tâche manquant']);
             }
+
+            break;
+
+        case 'trierParOrdreAlphabetique' :
+
+            $tachesTriees = trierParOrdreAlphabetique();
+            header('Content-type: application/json; charset=utf-8');
+            echo json_encode($tachesTriees);
+
+            break;
+        
+        case 'trierParImportance' : 
+
+            $tachesTriees = trierParImportance();
+            header('Content-type: application/json; charset=utf-8');
+            echo json_encode($tachesTriees);
 
             break;
     }

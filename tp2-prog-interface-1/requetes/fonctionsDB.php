@@ -69,6 +69,7 @@ function ajouteJoueur($tache, $description, $importance) {
 /**
 * Retourne la tache spécifié
 */
+
 function getTache($id) {
 	// La fonction mysqli_real_escape_string est utilisée pour créer une chaîne SQL légale qui peut être utilisée dans une instruction SQL, en tenant compte du jeu de caractères (charset) actuel de la connexion.
 	global $connexion;
@@ -79,6 +80,7 @@ function getTache($id) {
 /**
 * Supprime la tache specifiée
 */
+
 function supprimeTache($id) {
 
     global $connexion;
@@ -88,4 +90,33 @@ function supprimeTache($id) {
 }
 
 
+/**
+ * Trie les taches par ordre alphabétique
+ */
 
+function trierParOrdreAlphabetique() {
+    $resultats = executeRequete("SELECT * FROM taches ORDER BY tache ASC");
+
+    // Convertir le résultat en tableau associatif
+    $tachesTriees = [];
+    while ($row = mysqli_fetch_assoc($resultats)) {
+        $tachesTriees[] = $row;
+    }
+
+    return $tachesTriees;
+}
+/**
+ * Trier les taches par importance
+ */
+
+function trierParImportance() {
+    $resultats = executeRequete("SELECT * FROM taches ORDER BY importance ASC");
+
+    // Convertir le résultat en tableau associatif
+    $tachesTriees = [];
+    while ($row = mysqli_fetch_assoc($resultats)) {
+        $tachesTriees[] = $row;
+    }
+
+    return $tachesTriees;
+}
